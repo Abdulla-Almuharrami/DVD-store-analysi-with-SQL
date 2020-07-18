@@ -1,0 +1,18 @@
+/*q3 which genre is most demanded ?*/
+
+SELECT
+	category.name AS Genre,
+	COUNT(customer.customer_id) AS renting_demand
+FROM category
+JOIN film_category
+	USING (category_id)
+JOIN film
+	USING (film_id)
+JOIN inventory
+	USING (film_id)
+JOIN rental
+	USING (inventory_id)
+JOIN customer
+	USING (customer_id)
+GROUP BY Genre
+ORDER BY 2 DESC

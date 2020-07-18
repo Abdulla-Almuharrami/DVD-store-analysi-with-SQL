@@ -1,0 +1,27 @@
+
+/* q4 which country has the highest customers ? */
+
+SELECT
+	country,
+	COUNT(DISTINCT customer_id) AS number_of_customers,
+	SUM(amount) AS total_amount
+FROM country
+JOIN city
+	USING (country_id)
+JOIN address
+	USING (city_id)
+JOIN customer
+	USING (address_id)
+JOIN payment
+	USING (customer_id)
+GROUP BY country
+ORDER BY total_amount DESC 
+
+
+
+
+
+
+
+
+

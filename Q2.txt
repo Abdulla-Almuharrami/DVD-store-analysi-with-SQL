@@ -1,0 +1,24 @@
+
+
+/*q2 what is the total transaction of each staff in every month ? */
+
+WITH u1 
+AS (SELECT
+ 	first_name ||' '|| last_name as staff_name ,
+	DATE_TRUNC('month', payment_date) AS month,
+	COUNT(payment_id) OVER (PARTITION BY staff_id ORDER BY 						DATE_TRUNC('month',payment_date)) AS total_transaction_month
+FROM payment 
+JOIN staff 
+	USING (staff_id)),
+u2 
+AS (SELECT
+	 * , 
+	row_number() over(partition by (staff_name , month) ) as row
+FROM u1)
+
+SELECT 
+	staff_name,
+	month,
+	total_transaction_month
+FROM u2
+WHERE row =1 
